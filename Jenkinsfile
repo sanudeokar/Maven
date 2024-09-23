@@ -32,9 +32,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Ensure you replace 'user@your-server' and '/path/to/deploy' with your actual details.
-                    sh 'scp target/image-filter-app-0.0.1-SNAPSHOT.jar user@your-server:/path/to/deploy'
-                    sh 'ssh user@your-server "sudo systemctl restart your-app-service"'
+                    // Deploy to Tomcat server
+                    sh 'scp target/image-filter-app-0.0.1-SNAPSHOT.jar ubuntu@65.2.122.115:/opt/tomcat/webapps/'
+                    sh 'ssh ubuntu@65.2.122.115 "sudo systemctl restart tomcat"'
                 }
             }
         }
