@@ -1,34 +1,23 @@
 pipeline {
-    agent none   // Don't run on the master
+    agent none
     stages {
         stage('Checkout Code') {
-            agent { label 'master' } // Run this step on the Jenkins master
+            agent { node { label 'master' } } // This can be problematic if 'master' label is missing
             steps {
-                // Clone the repository from GitHub
                 checkout scm
             }
         }
         stage('Compile') {
-            agent { label 'compile' }  // Use the 'compile' slave node
+            agent { label 'compile' }
             steps {
-                // Compile the Maven project
                 sh 'mvn clean compile'
             }
         }
         stage('Test') {
-            agent { label 'test' }  // Use the 'test' slave node
+            agent { label 'test' }
             steps {
-                // Run the unit tests
                 sh 'mvn test'
             }
-        }
-    }
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed.'
         }
     }
 }
