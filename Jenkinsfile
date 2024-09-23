@@ -2,7 +2,7 @@ pipeline {
     agent none
     stages {
         stage('Checkout Code') {
-            agent { node { label 'main' } } // This can be problematic if 'master' label is missing
+            agent  { label 'master' }  // This can be problematic if 'master' label is missing
             steps {
                 checkout scm
             }
