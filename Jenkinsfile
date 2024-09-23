@@ -36,7 +36,7 @@ pipeline {
                     sh 'ssh-keyscan -H 65.2.122.115 >> ~/.ssh/known_hosts'
 
                     // Use Jenkins credentials for SSH
-                    withCredentials([sshUserPrivateKey(credentialsId: 'your-ssh-credentials-id', keyFileVariable: 'SSH_KEY')]) {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-server-key', keyFileVariable: 'SSH_KEY')]) {
                         sh 'scp -i $SSH_KEY target/image-filter-app-0.0.1-SNAPSHOT.jar ubuntu@65.2.122.115:/opt/tomcat/webapps/'
                         sh 'ssh -i $SSH_KEY ubuntu@65.2.122.115 "sudo systemctl restart tomcat"'
                     }
