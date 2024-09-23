@@ -1,22 +1,18 @@
 pipeline {
-    agent none
+    agent {
+        node {
+            label 'slave-compile' // Ensure this node has Java 17 installed
+        }
+    }
+    tools {
+        jdk 'jdk-17' // Name of the JDK configuration as set in Global Tool Configuration
+    }
     stages {
-        stage('Checkout Code') {
-            agent  { label 'master' }  // This can be problematic if 'master' label is missing
-            steps {
-                checkout scm
-            }
-        }
         stage('Compile') {
-            agent { label 'compile' }
             steps {
-                sh 'mvn clean compile'
-            }
-        }
-        stage('Test') {
-            agent { label 'test' }
-            steps {
-                sh 'mvn test'
+                script {
+                    sh 'mvn clean compile'
+                }
             }
         }
     }
